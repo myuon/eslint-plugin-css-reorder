@@ -1,5 +1,6 @@
 import { TSESLint } from "@typescript-eslint/experimental-utils";
-import * as csstree from "css-tree";
+import { ChildNode } from "postcss";
+import { parse } from "../parser";
 
 const propertyOrder = ["display", "flex"];
 
@@ -15,45 +16,42 @@ export const propertyReorder: TSESLint.RuleModule<"property-reorder", []> = {
   create: (context) => {
     return {
       "TaggedTemplateExpression[tag.name='css']": (eslintNode: any) => {
-        const ast = csstree.parse(
-          `* {${eslintNode.quasi.quasis[0].value.raw}}`
-        );
-        console.log(JSON.stringify(ast));
+        const root = parse(`${eslintNode.quasi.quasis[0].value.raw}`);
 
-        csstree.walk(ast, (node: csstree.CssNode) => {
-          if (node.type === "Block") {
-            let lastPropertyName = "";
-            let lastNodeOrderIndex = 0;
-            node.children.forEach((childNode) => {
-              console.log(childNode);
-              if (childNode.type !== "Declaration") {
-                return;
-              }
+        const walk = (nodes: ChildNode[]) => {
+          let lastPropertyName = "";
+          let lastNodeOrderIndex = 0;
+          nodes.forEach((childNode) => {
+            if (childNode.type !== "decl") {
+              return;
+            }
 
-              const property = childNode.property;
-              const index = propertyOrder.findIndex(
-                (prop) => prop === property
-              );
-              if (index < 0) {
-                return;
-              }
+            const property = childNode.prop;
+            const index = propertyOrder.findIndex((prop) => prop === property);
+            if (index < 0) {
+              return;
+            }
 
-              if (index < lastNodeOrderIndex) {
-                context.report({
-                  node: eslintNode,
-                  messageId: "property-reorder",
-                  data: {
-                    property,
-                    lastPropertyName,
-                  },
-                });
-              }
+            if (index < lastNodeOrderIndex) {
+              context.report({
+                node: eslintNode,
+                messageId: "property-reorder",
+                data: {
+                  property,
+                  lastPropertyName,
+                },
+              });
+            }
 
-              lastNodeOrderIndex = index;
-              lastPropertyName = property;
-            });
-          }
-        });
+            lastNodeOrderIndex = index;
+            lastPropertyName = property;
+          });
+        };
+
+        root.walkRules((node) => walk(node.nodes));
+
+        // Nodes in root cannot be visited by walkRules
+        walk(root.nodes);
       },
     };
   },
