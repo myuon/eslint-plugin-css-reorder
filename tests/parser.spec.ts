@@ -20,3 +20,10 @@ test("a &", () => {
     ],
   });
 });
+
+test("nested blocks", () => {
+  const ast = extended.parse("a { div { display: flex; } }");
+  expect(toPlainObject(ast)).toStrictEqual({
+    type: "StyleSheet",
+  });
+});
