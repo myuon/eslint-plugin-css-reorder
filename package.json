@@ -13,14 +13,13 @@
     "lint": "eslint .",
     "test": "jest"
   },
-  "dependencies": {
-    "stylelint": "^14.5.3"
-  },
   "devDependencies": {
     "@babel/core": "^7.17.5",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-typescript": "^7.16.7",
+    "@types/css-tree": "^1.0.7",
     "@types/eslint": "^8.4.1",
+    "@types/jest": "^27.4.1",
     "@types/node": "^17.0.21",
     "@typescript-eslint/experimental-utils": "^5.14.0",
     "eslint": "^8.0.1",
@@ -35,5 +34,8 @@
   "peerDependencies": {
     "eslint": ">=6"
   },
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "css-tree": "^2.1.0"
+  }
 }
