@@ -38,7 +38,7 @@ export const propertyReorder: TSESLint.RuleModule<"property-reorder", []> = {
                 messageId: "property-reorder",
                 data: {
                   property,
-                  lastPropertyName,
+                  before: lastPropertyName,
                 },
               });
             }

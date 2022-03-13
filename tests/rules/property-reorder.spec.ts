@@ -17,11 +17,24 @@ tester.run("property-reorder", propertyReorder, {
   invalid: [
     {
       code: "css`a { flex: 1; display: flex; }`",
-      errors: [{ messageId: "property-reorder" }],
+      errors: [
+        {
+          messageId: "property-reorder",
+          data: {
+            before: "flex",
+            property: "display",
+          },
+        },
+      ],
     },
     {
       code: "css`flex: 1; display: flex;`",
-      errors: [{ messageId: "property-reorder" }],
+      errors: [
+        {
+          messageId: "property-reorder",
+          data: { before: "flex", property: "display" },
+        },
+      ],
     },
   ],
 });
