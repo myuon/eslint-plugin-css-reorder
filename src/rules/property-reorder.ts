@@ -1,5 +1,5 @@
 import { TSESLint, TSESTree } from "@typescript-eslint/experimental-utils";
-import { ChildNode, Node } from "postcss";
+import { Node } from "postcss";
 import { parse } from "../parser";
 import getContainingNode from "postcss-sorting/lib/getContainingNode";
 import sortNode from "postcss-sorting/lib/order/sortNode";
@@ -46,6 +46,7 @@ export const propertyReorder: TSESLint.RuleModule<"property-reorder", []> = {
         rootChanged.walk(reorder);
 
         if (root.toString() !== rootChanged.toString()) {
+          // You can't just stringify rootChanged.first, need to strip the enclosing {}
           const re = /\&\s\{\s(.*)\s\}/;
           const body = re.exec(rootChanged.toString())?.[1];
           if (!body) {
