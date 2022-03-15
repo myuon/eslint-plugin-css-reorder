@@ -20,21 +20,18 @@ tester.run("property-reorder", propertyReorder, {
       errors: [
         {
           messageId: "property-reorder",
-          data: {
-            before: "flex",
-            property: "display",
-          },
         },
       ],
+      output: "css`a { display: flex; flex: 1; }`",
     },
     {
       code: "css`flex: 1; display: flex;`",
       errors: [
         {
           messageId: "property-reorder",
-          data: { before: "flex", property: "display" },
         },
       ],
+      output: "css`display: flex; flex: 1;`",
     },
   ],
 });

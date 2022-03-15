@@ -1,57 +1,65 @@
-import { TSESLint } from "@typescript-eslint/experimental-utils";
-import { ChildNode } from "postcss";
+import { TSESLint, TSESTree } from "@typescript-eslint/experimental-utils";
+import { ChildNode, Node } from "postcss";
 import { parse } from "../parser";
+import getContainingNode from "postcss-sorting/lib/getContainingNode";
+import sortNode from "postcss-sorting/lib/order/sortNode";
+import sortNodeProperties from "postcss-sorting/lib/properties-order/sortNodeProperties";
 
-const propertyOrder = ["display", "flex"];
+const propertyOrder = [["display", "flex"]].flat();
 
 export const propertyReorder: TSESLint.RuleModule<"property-reorder", []> = {
   meta: {
     type: "problem",
     schema: [],
     messages: {
-      "property-reorder":
-        "Property {{ property }} should be ordered before {{ before }}.",
+      "property-reorder": "Need reorder",
     },
+    fixable: "code",
+    hasSuggestions: true,
   },
   create: (context) => {
     return {
-      "TaggedTemplateExpression[tag.name='css']": (eslintNode: any) => {
-        const root = parse(`${eslintNode.quasi.quasis[0].value.raw}`);
+      "TaggedTemplateExpression[tag.name='css']": (
+        eslintNode: TSESTree.TaggedTemplateExpression
+      ) => {
+        const raw = `& { ${eslintNode.quasi.quasis[0].value.raw} }`;
+        const root = parse(raw);
 
-        const walk = (nodes: ChildNode[]) => {
-          let lastPropertyName = "";
-          let lastNodeOrderIndex = 0;
-          nodes.forEach((childNode) => {
-            if (childNode.type !== "decl") {
-              return;
-            }
+        const reorder = (input: Node) => {
+          const node = getContainingNode(input);
 
-            const property = childNode.prop;
-            const index = propertyOrder.findIndex((prop) => prop === property);
-            if (index < 0) {
-              return;
-            }
-
-            if (index < lastNodeOrderIndex) {
-              context.report({
-                node: eslintNode,
-                messageId: "property-reorder",
-                data: {
-                  property,
-                  before: lastPropertyName,
-                },
-              });
-            }
-
-            lastNodeOrderIndex = index;
-            lastPropertyName = property;
+          sortNode(node, [
+            "custom-properties",
+            "dollar-variables",
+            "at-variables",
+            "declarations",
+            "rules",
+            "at-rules",
+          ]);
+          sortNodeProperties(node, {
+            order: propertyOrder,
+            unspecifiedPropertiesPosition: "bottom",
           });
         };
 
-        root.walkRules((node) => walk(node.nodes));
+        const rootChanged = root.clone();
+        rootChanged.walk(reorder);
 
-        // Nodes in root cannot be visited by walkRules
-        walk(root.nodes);
+        if (root.toString() !== rootChanged.toString()) {
+          const re = /\&\s\{\s(.*)\s\}/;
+          const body = re.exec(rootChanged.toString())?.[1];
+          if (!body) {
+            throw new Error("Unexpected");
+          }
+
+          context.report({
+            node: eslintNode,
+            messageId: "property-reorder",
+            fix: (fixer) => {
+              return fixer.replaceText(eslintNode, "css`" + body + "`");
+            },
+          });
+        }
       },
     };
   },

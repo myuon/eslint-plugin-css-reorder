@@ -35,6 +35,7 @@
   },
   "license": "ISC",
   "dependencies": {
-    "postcss": "^8.4.8"
+    "postcss": "^8.4.8",
+    "postcss-sorting": "^7.0.1"
   }
 }
