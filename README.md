@@ -1,6 +1,6 @@
-# eslint-plugin-stylelint
+# eslint-plugin-css-reorder
 
-ESLint plugin for stylelint with CSS-in-JS
+ESLint plugin for CSS properties reordering
 
 ## Installation
 
@@ -10,37 +10,32 @@ You'll first need to install [ESLint](https://eslint.org/):
 npm i eslint --save-dev
 ```
 
-Next, install `eslint-plugin-stylelint`:
+Next, install `eslint-plugin-css-reorder`:
 
 ```sh
-npm install eslint-plugin-stylelint --save-dev
+npm install eslint-plugin-css-reorder --save-dev
 ```
 
 ## Usage
 
-Add `stylelint` to the plugins section of your `.eslintrc` configuration file. You can omit the `eslint-plugin-` prefix:
+Add `css-reorder` to the plugins section of your `.eslintrc` configuration file. You can omit the `eslint-plugin-` prefix:
 
 ```json
 {
-    "plugins": [
-        "stylelint"
-    ]
+  "plugins": ["css-reorder"]
 }
 ```
-
 
 Then configure the rules you want to use under the rules section.
 
 ```json
 {
-    "rules": {
-        "stylelint/rule-name": 2
-    }
+  "rules": {
+    "css-reorder/rule-name": 2
+  }
 }
 ```
 
 ## Supported Rules
 
-* Fill in provided rules here
-
-
+- property-reorder

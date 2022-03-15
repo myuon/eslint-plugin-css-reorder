@@ -1,7 +1,7 @@
 {
-  "name": "eslint-plugin-stylelint",
+  "name": "eslint-plugin-css-reorder",
   "version": "0.0.1",
-  "description": "ESLint plugin for stylelint with CSS-in-JS",
+  "description": "ESLint plugin for CSS properties reordering",
   "keywords": [
     "eslint",
     "eslintplugin",
