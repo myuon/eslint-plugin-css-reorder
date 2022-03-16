@@ -214,7 +214,7 @@ export const propertyReorder: TSESLint.RuleModule<"property-reorder", []> = {
       "TaggedTemplateExpression[tag.name='css']": (
         eslintNode: TSESTree.TaggedTemplateExpression
       ) => {
-        const raw = `& { ${eslintNode.quasi.quasis[0].value.raw} }`;
+        const raw = `&{${eslintNode.quasi.quasis[0].value.raw}}`;
         const root = parse(raw);
 
         const reorder = (input: Node) => {
@@ -239,8 +239,8 @@ export const propertyReorder: TSESLint.RuleModule<"property-reorder", []> = {
 
         if (root.toString() !== rootChanged.toString()) {
           // You can't just stringify rootChanged.first, need to strip the enclosing {}
-          const re = /\&\s\{\s(.*)\s\}/;
-          const body = re.exec(rootChanged.toString())?.[1];
+          const re = /\&\{(.*)\}/s;
+          const body = rootChanged.toString().match(re)?.[1].trim();
           if (!body) {
             throw new Error("Unexpected");
           }

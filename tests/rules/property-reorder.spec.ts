@@ -6,6 +6,9 @@ const tester = new TSESLint.RuleTester({
   parserOptions: {
     ecmaVersion: 2018,
     sourceType: "module",
+    ecmaFeatures: {
+      jsx: true,
+    },
   },
 });
 
@@ -31,7 +34,17 @@ tester.run("property-reorder", propertyReorder, {
           messageId: "property-reorder",
         },
       ],
-      output: "css`display: flex; flex: 1;`",
+      output: "css`display: flex;flex: 1;`",
+    },
+    {
+      code: "const render = () => { return ( <div css={css`gap: 16px;\ndisplay: grid;\n`}><img /></div> ); };",
+      errors: [
+        {
+          messageId: "property-reorder",
+        },
+      ],
+      output:
+        "const render = () => { return ( <div css={css`display: grid;gap: 16px;`}><img /></div> ); };",
     },
   ],
 });
