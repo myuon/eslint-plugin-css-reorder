@@ -9,6 +9,10 @@
     "skipLibCheck": true,
     "declaration": true
   },
-  "include": ["./src/index.ts", "./postcss-sorting.d.ts"],
+  "include": [
+    "./src/index.ts",
+    "./postcss-sorting.d.ts",
+    "./postcss-comment.d.ts"
+  ],
   "exclude": ["node_modules", "dist"]
 }

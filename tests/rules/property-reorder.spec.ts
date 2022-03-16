@@ -22,6 +22,11 @@ tester.run("property-reorder", propertyReorder, {
     {
       code: "const render = () => { return ( <div css={css`display:${theme.display};gap:${theme.gap};`}><img /></div> ); };",
     },
+    {
+      code: `const styles = css\`
+        // comment
+      \``,
+    },
   ],
   invalid: [
     {
