@@ -6,6 +6,9 @@
     "strict": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "skipLibCheck": true
-  }
+    "skipLibCheck": true,
+    "declaration": true
+  },
+  "include": ["./src/index.ts", "./postcss-sorting.d.ts"],
+  "exclude": ["node_modules", "dist"]
 }

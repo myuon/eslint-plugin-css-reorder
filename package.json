@@ -12,7 +12,7 @@
   "scripts": {
     "lint": "eslint .",
     "test": "jest",
-    "build": "tsc",
+    "build": "rm -rf dist && tsc",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
@@ -39,5 +39,8 @@
   "dependencies": {
     "postcss": "^8.4.8",
     "postcss-sorting": "^7.0.1"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }
