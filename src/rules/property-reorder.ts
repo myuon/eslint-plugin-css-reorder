@@ -218,7 +218,7 @@ export const propertyReorder: TSESLint.RuleModule<"property-reorder", []> = {
         const raw = `&{${eslintNode.quasi.quasis.reduce(
           (acc, cur, index) =>
             acc +
-            (index > 0 ? `var(--placholder_${index - 1})` : "") +
+            (index > 0 ? `var(--placeholder_${index - 1})` : "") +
             cur.value.raw,
           ""
         )}}`;

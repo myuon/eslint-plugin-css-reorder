@@ -19,6 +19,9 @@ tester.run("property-reorder", propertyReorder, {
     {
       code: "const render = () => { return ( <div css={css`display: ${'gr' + 'id'};\n`}><img /></div> ); };",
     },
+    {
+      code: "const render = () => { return ( <div css={css`display:${theme.display};gap:${theme.gap};`}><img /></div> ); };",
+    },
   ],
   invalid: [
     {
