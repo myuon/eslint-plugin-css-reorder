@@ -16,6 +16,9 @@ tester.run("property-reorder", propertyReorder, {
   valid: [
     { code: "css`a { display: flex; flex: 1; }`" },
     { code: "css`display: flex; flex: 1;`" },
+    {
+      code: "const render = () => { return ( <div css={css`display: ${'gr' + 'id'};\n`}><img /></div> ); };",
+    },
   ],
   invalid: [
     {

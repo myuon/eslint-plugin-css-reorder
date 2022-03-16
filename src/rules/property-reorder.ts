@@ -214,7 +214,14 @@ export const propertyReorder: TSESLint.RuleModule<"property-reorder", []> = {
       "TaggedTemplateExpression[tag.name='css']": (
         eslintNode: TSESTree.TaggedTemplateExpression
       ) => {
-        const raw = `&{${eslintNode.quasi.quasis[0].value.raw}}`;
+        // UGLY!
+        const raw = `&{${eslintNode.quasi.quasis.reduce(
+          (acc, cur, index) =>
+            acc +
+            (index > 0 ? `var(--placholder_${index - 1})` : "") +
+            cur.value.raw,
+          ""
+        )}}`;
         const root = parse(raw);
 
         const reorder = (input: Node) => {
@@ -245,11 +252,27 @@ export const propertyReorder: TSESLint.RuleModule<"property-reorder", []> = {
             throw new Error("Unexpected");
           }
 
+          // Recover placeholder_**
+          const source = context.getSourceCode();
+          const recover = (body: string) => {
+            return eslintNode.quasi.expressions.reduce(
+              (acc, expr, index) =>
+                acc.replace(
+                  `var(--placeholder_${index})`,
+                  "${" + `${source.getText(expr)}` + "}"
+                ),
+              body
+            );
+          };
+
           context.report({
             node: eslintNode,
             messageId: "property-reorder",
             fix: (fixer) => {
-              return fixer.replaceText(eslintNode, "css`" + body + "`");
+              return fixer.replaceText(
+                eslintNode,
+                "css`" + recover(body) + "`"
+              );
             },
           });
         }
