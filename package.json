@@ -36,7 +36,6 @@
   "peerDependencies": {
     "eslint": ">=6"
   },
-  "license": "ISC",
   "dependencies": {
     "postcss": "^8.4.8",
     "postcss-comment": "^2.0.0",
@@ -44,5 +43,11 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/myuon/eslint-plugin-css-reorder.git"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/myuon/eslint-plugin-css-reorder#readme"
 }
