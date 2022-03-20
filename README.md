@@ -1,5 +1,7 @@
 # eslint-plugin-css-reorder
 
+[![npm version](https://badge.fury.io/js/eslint-plugin-css-reorder.svg)](https://badge.fury.io/js/eslint-plugin-css-reorder) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 ESLint plugin for CSS properties reordering
 
 ## Installation
