@@ -6,15 +6,18 @@ import sortNode from "postcss-sorting/lib/order/sortNode";
 import sortNodeProperties from "postcss-sorting/lib/properties-order/sortNodeProperties";
 import { properties } from "../properties";
 
-export const propertyReorder: TSESLint.RuleModule<"property-reorder", []> = {
+export const propertyReorder: TSESLint.RuleModule<
+  "property-reorder" | "css-error",
+  []
+> = {
   meta: {
     type: "problem",
     schema: [],
     messages: {
       "property-reorder": "Need reorder",
+      "css-error": "Error in CSS",
     },
     fixable: "code",
-    hasSuggestions: true,
   },
   create: (context) => {
     return {
@@ -85,7 +88,10 @@ export const propertyReorder: TSESLint.RuleModule<"property-reorder", []> = {
             });
           }
         } catch (err) {
-          console.error(`[css-reorder/property-reoreder]: ${err}`);
+          context.report({
+            node: eslintNode,
+            messageId: "css-error",
+          });
         }
       },
     };

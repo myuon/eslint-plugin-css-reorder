@@ -57,5 +57,13 @@ tester.run("property-reorder", propertyReorder, {
       output:
         "const render = () => { return ( <div css={css`display: grid;gap: 16px;`}><img /></div> ); };",
     },
+    {
+      code: "css`a { display }`",
+      errors: [
+        {
+          messageId: "css-error",
+        },
+      ],
+    },
   ],
 });
