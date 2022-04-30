@@ -38,7 +38,6 @@
   },
   "dependencies": {
     "postcss": "^8.4.8",
-    "postcss-comment": "^2.0.0",
     "postcss-sorting": "^7.0.1"
   },
   "files": [
