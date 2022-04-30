@@ -16,3 +16,10 @@ display: flex;`);
   expect(root.toString()).toBe(`/* hoge */
 display: flex;`);
 });
+
+test("block comment", () => {
+  const root = parse(`/* hoge */
+display: flex;`);
+  expect(root.toString()).toBe(`/* hoge */
+display: flex;`);
+});
