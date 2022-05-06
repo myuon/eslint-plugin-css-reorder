@@ -23,3 +23,8 @@ display: flex;`);
   expect(root.toString()).toBe(`/* hoge */
 display: flex;`);
 });
+
+test("a comment with URL", () => {
+  const root = parse(`/* https://example.com */`);
+  expect(root.toString()).toBe(`/* https://example.com */`);
+});

@@ -4,7 +4,11 @@ import postcss, { ProcessOptions } from "postcss";
 
 const preprocess = (css: string) => {
   // remove a line comment and insert a block comment
-  return css.replace(/\/\/(.*)/g, (_, p1: string) => `/* ${p1.trim()} */`);
+  // URL pattern (://) should be ignored
+  return css.replace(
+    /(?<!\:)\/\/(.*)/g,
+    (_, p1: string) => `/* ${p1.trim()} */`
+  );
 };
 
 export const parse = (

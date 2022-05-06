@@ -37,7 +37,7 @@
     "eslint": ">=6"
   },
   "dependencies": {
-    "postcss": "^8.4.8",
+    "postcss": "^8.4.13",
     "postcss-sorting": "^7.0.1"
   },
   "files": [
