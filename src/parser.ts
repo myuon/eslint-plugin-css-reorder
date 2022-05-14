@@ -10,6 +10,7 @@ const preprocess = (css: string) => {
     (_, p1: string) => `/* ${p1.trim()} */`
   );
 };
+any;
 
 export const parse = (
   css: string,
